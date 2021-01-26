@@ -1,5 +1,5 @@
-# commercial-se repo
-Commercial Sales Engineer repo - Internal Access Only. 
+# commercial-se public demo repo 
+Confluent Cloud demos - Confluent Commercial SE team 
 
 # follow these best practices as outlined by devx 
 1. Always start new branch from master. Do not push directly to master.
