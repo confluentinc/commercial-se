@@ -6,4 +6,4 @@ Commercial Sales Engineer repo - Internal
 2. Based on your new branch, submit a PR
 3. This repo will block merge until unless one person approves PR 
 
-# to clone this repo to your local, you must use SSH protocol (generate public/private keys)
+### to clone this repo to your local, you must use SSH protocol (generate public/private keys)
