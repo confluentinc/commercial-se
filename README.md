@@ -1,6 +1,3 @@
-# Original demo designed for Confluent Platform, by Senior Solutions Engineer: Alex Woolford 
-find Alex's demo here: https://github.com/alexwoolford/rtd-kafka 
-
 # Demo summary
 realtime bus data from denver transit authority -> springboot -> Confluent Cloud -> S3
 
@@ -39,3 +36,5 @@ The messages are serialized as Avro and look like this when deserialized:
 The message key is the vehicle ID, which means that telemetry for a vehicle is always sent to the same Kafka partition.
 
 Finally, used fully managed Confluent Cloud S3 sink connector to easily write out data from the rtd-bus-position topic and persist in S3. 
+
+<sub><sup>Original demo designed for Confluent Platform, by Senior Solutions Engineer: Alex Woolford. Find Alex's demo here: https://github.com/alexwoolford/rtd-kafka</sup></sub>
