@@ -5,15 +5,21 @@ find Alex's demo here: https://github.com/alexwoolford/rtd-kafka
 realtime bus data from denver transit authority -> springboot -> Confluent Cloud -> S3
 
 •Springboot app scrapes realtime bus location data from denver transit authority
+
 •app produces to topic 
+
 •fully managed S3 connector writes out to S3 bucket
 
 # Prerequisites to run demo 
 •IntelliJ
+
 •S3 connector
+
 •S3 bucket
+
 •Confluent Cloud account
-•Confluent Cloud connection details (api keys for schema registry, your cluster, see the "application.properties" file for what you need to configure from your Confluent Cloud account) 
+
+•Confluent Cloud connection details (api keys for schema registry, your cluster, see the "application.properties" within rtd-feed/src/main/resources/application.properties for what you need to configure from your Confluent Cloud account) 
 
 # RTD Bus Feed
 The __rtd-feed__ module publishes the latest Denver RTD bus positions, every 30 seconds, to the `rtd-bus-position` Kafka topic. This is telemetry data from buses. The regional transport district (RTD) publishes data as a Protobuf file, which we scrape from here: https://www.rtd-denver.com/business-center/open-data/gtfs-developer-guide#gtfs-realtime-feeds. 
