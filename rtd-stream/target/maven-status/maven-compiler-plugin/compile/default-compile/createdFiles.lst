@@ -1,0 +1,14 @@
+io/woolford/rtd/BusPositionFeed.class
+io/woolford/rtd/stream/HaversineTransformerSupplier$1.class
+io/woolford/rtd/stream/RtdStreamer.class
+io/woolford/rtd/Location$Builder.class
+io/woolford/rtd/stream/HaversineTransformerSupplier.class
+io/woolford/rtd/stream/HaversineDistanceCalculator.class
+io/woolford/rtd/stream/RtdStreamProperties.class
+io/woolford/rtd/BusPositionSpeed.class
+io/woolford/rtd/BusPositionFeed$1.class
+io/woolford/rtd/Location.class
+io/woolford/rtd/BusPositionFeed$Builder.class
+io/woolford/rtd/BusPositionSpeed$Builder.class
+io/woolford/rtd/Location$1.class
+io/woolford/rtd/BusPositionSpeed$1.class

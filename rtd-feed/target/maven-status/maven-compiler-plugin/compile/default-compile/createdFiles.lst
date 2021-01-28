@@ -1,0 +1,9 @@
+io/woolford/rtd/BusPositionFeed.class
+io/woolford/rtd/feed/FeedPoller.class
+io/woolford/rtd/feed/KafkaConfig.class
+io/woolford/rtd/Location$Builder.class
+io/woolford/rtd/BusPositionFeed$1.class
+io/woolford/rtd/Location.class
+io/woolford/rtd/BusPositionFeed$Builder.class
+io/woolford/rtd/Location$1.class
+io/woolford/rtd/feed/Application.class
