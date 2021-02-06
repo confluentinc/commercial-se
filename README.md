@@ -6,8 +6,9 @@ This repo contains the following curated by Commercial SE team:
 # Commercial SEs, follow these best practices as outlined by devx: 
 1. Always start new branch from master. Do not push directly to master.
 2. Based on your new branch, submit a PR.
-3. This repo will block merge until unless one person approves PR.
-4. To clone this repo to your local, you can use HTTPS as it is public. 
+3. Please have your brach name following the naming convention <parent>/<child>. (example: demo/bus or workshop/ksqldb) 
+4. This repo will block merge until unless one person approves PR.
+5. To clone this repo to your local, you can use HTTPS as it is public. 
 
 *Note in order to push code to a branch you will need to:
 1. Join confluentinc on Github via OKTA Single Sign-On (SSO)
