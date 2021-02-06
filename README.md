@@ -16,7 +16,7 @@ This repo contains the following curated by Commercial SE team:
 3. Set-up SSH keys on GitHub
 4. Enable SSO for your key and then Authorize
 
-<sub>See[engineering onboard wiki](https://confluentinc.atlassian.net/wiki/spaces/Engineering/pages/1085800848/Setting+up+Accounts#SettingupAccounts-Github)for help with steps 1-4</sub>
+<sub>See [engineering onboard wiki](https://confluentinc.atlassian.net/wiki/spaces/Engineering/pages/1085800848/Setting+up+Accounts#SettingupAccounts-Github) for help with steps 1-4</sub>
 
 <sub>Maintained by Sami and the Commercial SE Confluent team. This repo should only be used for Commercial SE workshops, and sharing workshops and demos with Confluent users
 </sub>
