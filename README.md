@@ -2,6 +2,7 @@
 This repo contains the following curated by Commercial SE team: 
 1. Confluent Cloud demos 
 2. Confluent Cloud workshops
+Navigate to different demos and workshops by selecting a branch from the dropdown. 
 
 # Commercial SEs, follow these best practices as outlined by devx: 
 1. Always start new branch from master. Do not push directly to master.
