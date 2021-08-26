@@ -49,7 +49,7 @@ Start the consumer:
 	   --topic avro_topic1 \
 	   --from-beginning \
 	   --bootstrap-server ${CC_BOOTSTRAP} \
-	   --consumer.config producer.config \
+	   --consumer.config client.config \
 	   --property value.schema.id=1 \
 	   #--property value.schema.file=./avro/avro_topic1.v1.avsc \
 	   --property schema.registry.url=http://localhost:8081;
@@ -59,7 +59,7 @@ Start the producer:
 	kafka-avro-console-producer \
 	   --topic avro_topic1 \
 	   --broker-list ${CC_BOOTSTRAP} \
-	   --producer.config producer.config \
+	   --producer.config client.config \
 	   --property value.schema.id=1 \
 	   #--property value.schema.file=./avro/avro_topic1.v1.avsc \
 	   --property schema.registry.url=http://localhost:8081;
@@ -95,7 +95,7 @@ Start the consumer:
 	   --topic json_topic1 \
 	   --from-beginning \
 	   --bootstrap-server ${CC_BOOTSTRAP} \
-	   --consumer.config producer.config \
+	   --consumer.config client.config \
 	   #--property value.schema=$(jq '.|tostring' ./json/json_topic1.v2.json) \
 	   --property value.schema.id=2 \
 	   --property schema.registry.url=http://localhost:8081;
@@ -108,7 +108,7 @@ Start the producer:
 	   --topic json_topic1 \
 	   #--property value.schema=$(jq '.|tostring' ./json/json_topic1.v2.json) \
 	   --property value.schema.id=2 \
-	   --producer.config producer.config;
+	   --producer.config client.config;
 
 Produce some records:
 
@@ -141,7 +141,7 @@ Start the consumer:
 	   --topic proto_topic3 \
 	   --from-beginning \
 	   --bootstrap-server ${CC_BOOTSTRAP} \
-	   --consumer.config producer.config \
+	   --consumer.config client.config \
 	   --property value.schema.id=3 \
 	   --property schema.registry.url=http://localhost:8081;
 
@@ -150,7 +150,7 @@ Start the producer:
 	kafka-protobuf-console-producer \
 	   --topic proto_topic3 \
 	   --broker-list ${CC_BOOTSTRAP} \
-	   --producer.config producer.config \
+	   --producer.config client.config \
 	   --property value.schema.id=3 \
 	   --property schema.registry.url=http://localhost:8081;
 
@@ -207,7 +207,7 @@ Start the consumer (schema v2):
 	   --topic avro_topic1 \
 	   --from-beginning \
 	   --bootstrap-server ${CC_BOOTSTRAP} \
-	   --consumer.config producer.config \
+	   --consumer.config client.config \
 	   --property value.schema.id=4 \
 	   --property schema.registry.url=http://localhost:8081;
 
@@ -216,7 +216,7 @@ Start the producer (schema v1):
 	kafka-avro-console-producer \
 	   --topic avro_topic1 \
 	   --broker-list ${CC_BOOTSTRAP} \
-	   --producer.config producer.config \
+	   --producer.config client.config \
 	   --property value.schema.id=1 \
 	   --property schema.registry.url=http://localhost:8081;
 
@@ -252,7 +252,7 @@ Start the consumer (schema v1):
 	   --topic json_topic1 \
 	   --from-beginning \
 	   --bootstrap-server ${CC_BOOTSTRAP} \
-	   --consumer.config producer.config \
+	   --consumer.config client.config \
 	   --property value.schema.id=2 \
 	   --property schema.registry.url=http://localhost:8081;
 
@@ -263,7 +263,7 @@ Start the producer (schema v2):
 	   --property schema.registry.url=http://localhost:8081 \
 	   --topic json_topic1 \
 	   --property value.schema.id=5 \
-	   --producer.config producer.config;
+	   --producer.config client.config;
 
 Produce some records:
 
@@ -316,7 +316,7 @@ Start the consumer:
 	   --topic avro_topic3 \
 	   --from-beginning \
 	   --bootstrap-server ${CC_BOOTSTRAP} \
-	   --consumer.config producer.config \
+	   --consumer.config client.config \
 	   --property value.schema.id=8 \
 	   --property schema.registry.url=http://localhost:8081;
 
@@ -325,7 +325,7 @@ Start the producer:
 	kafka-avro-console-producer \
 	   --topic avro_topic3 \
 	   --broker-list ${CC_BOOTSTRAP} \
-	   --producer.config producer.config \
+	   --producer.config client.config \
 	   --property value.schema.id=8 \
 	   --property schema.registry.url=http://localhost:8081;
 
@@ -354,7 +354,7 @@ Start the consumer:
 	   --topic proto_topic3 \
 	   --from-beginning \
 	   --bootstrap-server ${CC_BOOTSTRAP} \
-	   --consumer.config producer.config \
+	   --consumer.config client.config \
 	   --property value.schema.id=11 \
 	   --property schema.registry.url=http://localhost:8081;
 
@@ -363,7 +363,7 @@ Start the producer:
 	kafka-protobuf-console-producer \
 	   --topic proto_topic3 \
 	   --broker-list ${CC_BOOTSTRAP} \
-	   --producer.config producer.config \
+	   --producer.config client.config \
 	   --property value.schema.id=11 \
 	   --property schema.registry.url=http://localhost:8081;
 
@@ -394,7 +394,7 @@ Start the consumer:
 	   --topic json_topic3 \
 	   --from-beginning \
 	   --bootstrap-server ${CC_BOOTSTRAP} \
-	   --consumer.config producer.config \
+	   --consumer.config client.config \
 	   --property value.schema.id=13 \
 	   --property schema.registry.url=http://localhost:8081;
 
@@ -405,7 +405,7 @@ Start the producer:
 	   --property schema.registry.url=http://localhost:8081 \
 	   --topic json_topic3 \
 	   --property value.schema.id=13 \
-	   --producer.config producer.config;
+	   --producer.config client.config;
 
 Produce some records:
 
@@ -437,7 +437,7 @@ Start the consumer:
 	   --topic multi_event \
 	   --from-beginning \
 	   --bootstrap-server ${CC_BOOTSTRAP} \
-	   --consumer.config producer.config \
+	   --consumer.config client.config \
 	   --property value.schema.id=17 \
 	   #--property value.schema.file=multi_event.avsc \
 	   --property schema.registry.url=http://localhost:8081;
@@ -447,7 +447,7 @@ Start the producer:
 	kafka-avro-console-producer \
 	   --topic multi_event \
 	   --broker-list ${CC_BOOTSTRAP} \
-	   --producer.config producer.config \
+	   --producer.config client.config \
 	   --property value.schema.id=17 \
 	   #--property value.schema.file=multi_event.avsc \
 	   --property schema.registry.url=http://localhost:8081;
@@ -493,7 +493,7 @@ Start the consumer:
 	   --topic multi_event \
 	   --from-beginning \
 	   --bootstrap-server ${CC_BOOTSTRAP} \
-	   --consumer.config producer.config \
+	   --consumer.config client.config \
 	   --property value.schema.id=4 \
 	   --property schema.registry.url=http://localhost:8081;
 
@@ -504,7 +504,7 @@ Start the producer:
 	   --property schema.registry.url=http://localhost:8081 \
 	   --topic multi_event \
 	   --property value.schema.id=4 \
-	   --producer.config producer.config;
+	   --producer.config client.config;
 
 Produce some records:
 
@@ -546,7 +546,7 @@ Start the consumer:
 	   --topic multi_event \
 	   --from-beginning \
 	   --bootstrap-server ${CC_BOOTSTRAP} \
-	   --consumer.config producer.config \
+	   --consumer.config client.config \
 	   --property value.schema.id=82 \
 	   --property schema.registry.url=http://localhost:8081;
 
@@ -555,7 +555,7 @@ Start the producer:
 	kafka-protobuf-console-producer \
 	   --topic multi_event \
 	   --broker-list ${CC_BOOTSTRAP} \
-	   --producer.config producer.config \
+	   --producer.config client.config \
 	   --property value.schema.id=82 \
 	   --property schema.registry.url=http://localhost:8081;
 
