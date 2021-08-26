@@ -2,9 +2,9 @@
 
 # 0 - Setup
 
-docker-compose --env-file docker-compose-ccloud.env -f docker-compose-schema-registry.yml up -d
+	docker-compose --env-file docker-compose-ccloud.env -f docker-compose-schema-registry.yml up -d
 
-export PATH="$PATH:<path to CP bin folder>"
+	export PATH="$PATH:<path to CP bin folder>"
 
 # 1 - Create Topics
 
