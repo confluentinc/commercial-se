@@ -1,15 +1,6 @@
-UNDER CONSTRUCTION
+# UNDER CONSTRUCTION
 
-
-# Welcome to the Commercial SE public demos and workshops repo 
- 
-
-# Commercial SEs, follow these best practices as outlined by devx: 
-
-
-
-
-# Setup
+# 0 - Setup
 
 docker-compose --env-file docker-compose-ccloud.env -f docker-compose-schema-registry.yml up -d
 
