@@ -24,15 +24,15 @@
 
 # 2 - List Schema Subjects
 
-	curl -s -X GET localhost:8081/subjects | jq
+	curl -s -X GET localhost:8081/subjects | jq;
 
 # 3 - Add Schemas
 
-Note: if no schemaType is supplied, schemaType is assumed to be AVRO.
-
+NOTE: if no schemaType is supplied, schemaType is assumed to be AVRO.
 
 ## AVRO
 
+Create the schema:
 
 	curl -X POST -H "Content-Type: application/json" -d \
 	   "{\"schemaType\":\"AVRO\", \
@@ -41,115 +41,133 @@ Note: if no schemaType is supplied, schemaType is assumed to be AVRO.
 
 View schemas:
 
-	curl -s -X GET localhost:8081/subjects | jq
+	curl -s -X GET localhost:8081/subjects | jq;
 
-Consume:
+Start the consumer:
 
 	kafka-avro-console-consumer \
 	   --topic avro_topic1 \
 	   --from-beginning \
-	   --bootstrap-server pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --bootstrap-server ${CC_BOOTSTRAP} \
 	   --consumer.config producer.config \
 	   --property value.schema.id=1 \
 	   #--property value.schema.file=./avro/avro_topic1.v1.avsc \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
 
-Produce:
+Start the producer:
 
 	kafka-avro-console-producer \
 	   --topic avro_topic1 \
-	   --broker-list pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --broker-list ${CC_BOOTSTRAP} \
 	   --producer.config producer.config \
 	   --property value.schema.id=1 \
 	   #--property value.schema.file=./avro/avro_topic1.v1.avsc \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
 
-Test:
+Produce some records:
 
-	GOOD: {"customer_id":4,"first_name":"John","last_name":"Doe","favourite_colour":"black"}
-	BAD:  {"f1":2}
+GOOD:
+
+	{"customer_id":4,"first_name":"John","last_name":"Doe","favourite_colour":"black"}
+	
+BAD:  
+
+	{"f1":2}
 
 
 ## JSON SCHEMA
 
+Create the schema:
 
 	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/json_topic1.v1.json)}" "http://localhost:8081/subjects/json_topic1-value/versions" | jq;
 
-#-- VIEW SCHEMAS
+View schemas:
 
-	curl -s -X GET localhost:8081/subjects/json_topic1-value/versions/latest | jq
-	curl -X GET http://localhost:8081/schemas/ids/2 | jq
+	curl -s -X GET localhost:8081/subjects/json_topic1-value/versions/latest | jq;
+	curl -X GET http://localhost:8081/schemas/ids/2 | jq;
 
-#-- CONSUME
+Start the consumer:
 
 	kafka-json-schema-console-consumer \
 	   --topic json_topic1 \
 	   --from-beginning \
-	   --bootstrap-server pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --bootstrap-server ${CC_BOOTSTRAP} \
 	   --consumer.config producer.config \
 	   #--property value.schema=$(jq '.|tostring' ./json/json_topic1.v2.json) \
 	   --property value.schema.id=2 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
 
-#-- PRODUCE
+Start the producer:
 
 	kafka-json-schema-console-producer \
-	   --broker-list pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --broker-list ${CC_BOOTSTRAP} \
 	   --property schema.registry.url=http://localhost:8081 \
 	   --topic json_topic1 \
 	   #--property value.schema=$(jq '.|tostring' ./json/json_topic1.v2.json) \
 	   --property value.schema.id=2 \
-	   --producer.config producer.config
+	   --producer.config producer.config;
 
-Test:
+Produce some records:
 
-	GOOD: {"customer_id":4,"first_name":"John","last_name":"Doe"}
-	BAD:  {"f1":2}
+GOOD: 
+
+	{"customer_id":4,"first_name":"John","last_name":"Doe"}
+	
+BAD:
+
+	{"f1":2}
 
 ## PROTOBUF
+
+Create the schema:
 
 	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"PROTOBUF\", \"schema\": \"$(cat ./protobuf/proto_topic1.v1.proto | tr -d '\n' | tr -d '\t')\"}" "http://localhost:8081/subjects/proto_topic1-value/versions" | jq;
 
 View schemas:
 
-	curl -s -X GET localhost:8081/subjects | jq
-	curl -s -X GET localhost:8081/subjects/proto_topic1-value/versions/latest | jq
-	curl -X GET http://localhost:8081/schemas/ids/3| jq
+	curl -s -X GET localhost:8081/subjects | jq;
+	curl -s -X GET localhost:8081/subjects/proto_topic1-value/versions/latest | jq;
+	curl -X GET http://localhost:8081/schemas/ids/3| jq;
 
-Consume:
+Start the consumer:
 
 	kafka-protobuf-console-consumer \
 	   --topic proto_topic3 \
 	   --from-beginning \
-	   --bootstrap-server pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --bootstrap-server ${CC_BOOTSTRAP} \
 	   --consumer.config producer.config \
 	   --property value.schema.id=3 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
 
-Produce:
+Start the producer:
 
 	kafka-protobuf-console-producer \
 	   --topic proto_topic3 \
-	   --broker-list pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --broker-list ${CC_BOOTSTRAP} \
 	   --producer.config producer.config \
 	   --property value.schema.id=3 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
 
-Test:
+Produce some records:
 
-	GOOD: {"customer_id":4,"first_name":"John","last_name":"Doe","height":179.0}
-	BAD:  {"f1":2}
+GOOD:
+
+	{"customer_id":4,"first_name":"John","last_name":"Doe","height":179.0}
+	
+BAD: 
+
+	{"f1":2}
 
 # 4 - Change Compatibility
 
-	curl -s -X GET localhost:8081/config
+	curl -s -X GET localhost:8081/config;
 
 	curl -X PUT -H "Content-Type: application/vnd.schemaregistry.v1+json" --data '{"compatibility": "FORWARD"}' http://localhost:8081/config/json_topic1-value;
 
 	curl -X PUT -H "Content-Type: application/vnd.schemaregistry.v1+json" --data '{"compatibility": "FULL"}' http://localhost:8081/config/proto_topic1-value;
 
-	curl -X GET http://localhost:8081/config/json_topic1-value
-	curl -X GET http://localhost:8081/config/proto_topic1-value
+	curl -X GET http://localhost:8081/config/json_topic1-value;
+	curl -X GET http://localhost:8081/config/proto_topic1-value;
 
 # 5 - Evolve Schemas
 
@@ -165,29 +183,29 @@ Evolve schema:
 
 View schema:
 
-	curl -s -X GET localhost:8081/subjects/avro_topic1-value/versions/latest | jq
-	curl -s -X GET localhost:8081/subjects/avro_topic1-value/versions/1 | jq
+	curl -s -X GET localhost:8081/subjects/avro_topic1-value/versions/latest | jq;
+	curl -s -X GET localhost:8081/subjects/avro_topic1-value/versions/1 | jq;
 
-Consume(consumer v2):
+Start the consumer (schema v2):
 
 	kafka-avro-console-consumer \
 	   --topic avro_topic1 \
 	   --from-beginning \
-	   --bootstrap-server pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --bootstrap-server ${CC_BOOTSTRAP} \
 	   --consumer.config producer.config \
 	   --property value.schema.id=4 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
 
-Produce(producer v1):
+Start the producer (schema v1):
 
 	kafka-avro-console-producer \
 	   --topic avro_topic1 \
-	   --broker-list pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --broker-list ${CC_BOOTSTRAP} \
 	   --producer.config producer.config \
 	   --property value.schema.id=1 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
 
-Test:
+Produce some records:
 
 	python3 python-avro-producer.py ./avro/avro_topic1.v1.avsc avro_topic1
 	{"customer_id":4,"first_name":"Jane","last_name":"Doe","favourite_colour":"green"}
@@ -196,7 +214,7 @@ Test:
 
 Check compatibility:
 
-	curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/json_topic1.v2.json)}" http://localhost:8081/compatibility/subjects/json_topic1-value/versions/latest | jq
+	curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/json_topic1.v2.json)}" http://localhost:8081/compatibility/subjects/json_topic1-value/versions/latest | jq;
 
 Evolve schema:
 
@@ -204,29 +222,29 @@ Evolve schema:
 
 View schema:
 
-	curl -s -X GET localhost:8081/subjects/json_topic1-value/versions/latest | jq
-	curl -s -X GET localhost:8081/subjects/json_topic1-value/versions/1 | jq
+	curl -s -X GET localhost:8081/subjects/json_topic1-value/versions/latest | jq;
+	curl -s -X GET localhost:8081/subjects/json_topic1-value/versions/1 | jq;
 
-Consume(consumer v1):
+Start the consumer (schema v1):
 
 	kafka-json-schema-console-consumer \
 	   --topic json_topic1 \
 	   --from-beginning \
-	   --bootstrap-server pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --bootstrap-server ${CC_BOOTSTRAP} \
 	   --consumer.config producer.config \
 	   --property value.schema.id=2 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
 
-Produce(producer v2):
+Start the producer (schema v2):
 
 	kafka-json-schema-console-producer \
-	   --broker-list pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --broker-list ${CC_BOOTSTRAP} \
 	   --property schema.registry.url=http://localhost:8081 \
 	   --topic json_topic1 \
 	   --property value.schema.id=5 \
-	   --producer.config producer.config
+	   --producer.config producer.config;
 
-Test:
+Produce some records:
 
 	{"customer_id":4,"first_name":"Benny","last_name":"Boy","date_of_birth":"11/03/81"}
 	{"customer_id":4,"firstname":"Benny","last_name":"Boy"}
@@ -243,62 +261,76 @@ Evolve schema:
 
 View schema:
 
-	curl -s -X GET localhost:8081/subjects/proto_topic1-value/versions/latest | jq
-	curl -s -X GET localhost:8081/subjects/proto_topic1-value/versions/1 | jq
+	curl -s -X GET localhost:8081/subjects/proto_topic1-value/versions/latest | jq;
+	curl -s -X GET localhost:8081/subjects/proto_topic1-value/versions/1 | jq;
 
 # 6 - Test References
 
 ## AVRO
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"AVRO\", \"schema\": $(jq '.|tostring' ./avro/avro_topic2.avsc)}" "http://localhost:8081/subjects/avro_topic2-value/versions" | jq
+Create the schema:
+
+	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"AVRO\", \"schema\": $(jq '.|tostring' ./avro/avro_topic2.avsc)}" "http://localhost:8081/subjects/avro_topic2-value/versions" | jq;
 
 	curl -X POST -H "Content-Type: application/json" -d \
 	   "{\"schemaType\":\"AVRO\", \
 	     \"schema\": $(jq '.|tostring' ./avro/avro_topic3.avsc), \
 	     \"references\": \
-	      [{\"name\": \"com.example.Customer\",\"subject\":\"avro_topic2-value\",\"version\": 1}]}" "http://localhost:8081/subjects/avro_topic3-value/versions" | jq
+	      [{\"name\": \"com.example.Customer\",\"subject\":\"avro_topic2-value\",\"version\": 1}]}" "http://localhost:8081/subjects/avro_topic3-value/versions" | jq;
 
-	curl -X GET http://localhost:8081/subjects/avro_topic2-value/versions/1/referencedby
+	curl -X GET http://localhost:8081/subjects/avro_topic2-value/versions/1/referencedby;
+
+Start the consumer:
 
 	kafka-avro-console-consumer \
 	   --topic avro_topic3 \
 	   --from-beginning \
-	   --bootstrap-server pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --bootstrap-server ${CC_BOOTSTRAP} \
 	   --consumer.config producer.config \
 	   --property value.schema.id=8 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
+
+Start the producer:
 
 	kafka-avro-console-producer \
 	   --topic avro_topic3 \
-	   --broker-list pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --broker-list ${CC_BOOTSTRAP} \
 	   --producer.config producer.config \
 	   --property value.schema.id=8 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
+
+Produce some records:
 
 	{"customer":{"first_name":"Bill","last_name":"Bob"}}
 
 ## PROTOBUF
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"PROTOBUF\", \"schema\": \"$(cat ./protobuf/proto_topic2.proto | tr -d '\n' | tr -d '\t')\"}" "http://localhost:8081/subjects/proto_topic2-value/versions" | jq
+	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"PROTOBUF\", \"schema\": \"$(cat ./protobuf/proto_topic2.proto | tr -d '\n' | tr -d '\t')\"}" "http://localhost:8081/subjects/proto_topic2-value/versions" | jq;
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"PROTOBUF\", \"schema\": \"$(cat ./protobuf/proto_topic3.proto | tr -d '\n' | tr -d '\t')\",\"references\":[{\"name\": \"proto_topic2.proto\",\"subject\":\"proto_topic2-value\",\"version\": 1}]}" "http://localhost:8081/subjects/proto_topic3-value/versions" | jq
+	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"PROTOBUF\", \"schema\": \"$(cat ./protobuf/proto_topic3.proto | tr -d '\n' | tr -d '\t')\",\"references\":[{\"name\": \"proto_topic2.proto\",\"subject\":\"proto_topic2-value\",\"version\": 1}]}" "http://localhost:8081/subjects/proto_topic3-value/versions" | jq;
 
-	curl -X GET http://localhost:8081/subjects/proto_topic2-value/versions/1/referencedby
+	curl -X GET http://localhost:8081/subjects/proto_topic2-value/versions/1/referencedby;
+
+Start the consumer:
 
 	kafka-protobuf-console-consumer \
 	   --topic proto_topic3 \
 	   --from-beginning \
-	   --bootstrap-server pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --bootstrap-server ${CC_BOOTSTRAP} \
 	   --consumer.config producer.config \
 	   --property value.schema.id=11 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
+
+Start the producer:
 
 	kafka-protobuf-console-producer \
 	   --topic proto_topic3 \
-	   --broker-list pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --broker-list ${CC_BOOTSTRAP} \
 	   --producer.config producer.config \
 	   --property value.schema.id=11 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
+
+Produce some records:
 
 	{"order_id":"1","customer":{"customer_name":"Ben"}}
 	{"orde_id":"1","customer":{"customer_name":"Ben"}}
@@ -306,26 +338,32 @@ View schema:
 
 ## JSON SCHEMA
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/json_topic2.json)}" "http://localhost:8081/subjects/json_topic2-value/versions" | jq
+	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/json_topic2.json)}" "http://localhost:8081/subjects/json_topic2-value/versions" | jq;
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/json_topic3.json),\"references\":[{\"name\": \"json_topic2.json\",\"subject\":\"json_topic2-value\",\"version\": 1}]}" "http://localhost:8081/subjects/json_topic3-value/versions" | jq
+	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/json_topic3.json),\"references\":[{\"name\": \"json_topic2.json\",\"subject\":\"json_topic2-value\",\"version\": 1}]}" "http://localhost:8081/subjects/json_topic3-value/versions" | jq;
 
-	curl -X GET http://localhost:8081/subjects/json_topic2-value/versions/1/referencedby
+	curl -X GET http://localhost:8081/subjects/json_topic2-value/versions/1/referencedby;
+
+Start the consumer:
 
 	kafka-json-schema-console-consumer \
 	   --topic json_topic3 \
 	   --from-beginning \
-	   --bootstrap-server pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --bootstrap-server ${CC_BOOTSTRAP} \
 	   --consumer.config producer.config \
 	   --property value.schema.id=13 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
+
+Start the producer:
 
 	kafka-json-schema-console-producer \
-	   --broker-list pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --broker-list ${CC_BOOTSTRAP} \
 	   --property schema.registry.url=http://localhost:8081 \
 	   --topic json_topic3 \
 	   --property value.schema.id=13 \
-	   --producer.config producer.config
+	   --producer.config producer.config;
+
+Produce some records:
 
 	{"f1":1,"customer":{"customerid":2}}
 	{"f2":1,"customer":{"customerid":2}}
@@ -349,22 +387,28 @@ View schema:
 	      {\"name\": \"com.example.Order\",\"subject\": \"order\",\"version\": 1}]}" \
 	"http://localhost:8081/subjects/multi_event-value/versions" | jq;
 
+Start the consumer:
+
 	kafka-avro-console-consumer \
 	   --topic multi_event \
 	   --from-beginning \
-	   --bootstrap-server pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --bootstrap-server ${CC_BOOTSTRAP} \
 	   --consumer.config producer.config \
 	   --property value.schema.id=17 \
 	   #--property value.schema.file=multi_event.avsc \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
+
+Start the producer:
 
 	kafka-avro-console-producer \
 	   --topic multi_event \
-	   --broker-list pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --broker-list ${CC_BOOTSTRAP} \
 	   --producer.config producer.config \
 	   --property value.schema.id=17 \
 	   #--property value.schema.file=multi_event.avsc \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
+
+Produce some records:
 
 	{"oneof_type":{"com.example.Customer":{"first_name":"Benny","last_name":"Boy"}}}
 	{"oneof_type":{"com.example.Order":{"order_id":2,"order_amount":4}}}
@@ -372,6 +416,8 @@ View schema:
 
 	{"oneof_type":{"product":{"product_name":2,"price":4.56}}
 	{"oneof_type":{"com.example.Order":{"order_id":2,"orderamount":4}}
+
+Hard delete the schemas:
 
 	curl -s -X DELETE "http://localhost:8081/subjects/multi_event-value";
 	curl -s -X DELETE "http://localhost:8081/subjects/multi_event-value?permanent=true";
@@ -397,26 +443,34 @@ View schema:
 	      {\"name\": \"order.json\",\"subject\": \"order\",\"version\": 1}]}" \
 	"http://localhost:8081/subjects/multi_event-value/versions" | jq;
 
+Start the consumer:
+
 	kafka-json-schema-console-consumer \
 	   --topic multi_event \
 	   --from-beginning \
-	   --bootstrap-server pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --bootstrap-server ${CC_BOOTSTRAP} \
 	   --consumer.config producer.config \
 	   --property value.schema.id=4 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
+
+Start the producer:
 
 	kafka-json-schema-console-producer \
-	   --broker-list pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --broker-list ${CC_BOOTSTRAP} \
 	   --property schema.registry.url=http://localhost:8081 \
 	   --topic multi_event \
 	   --property value.schema.id=4 \
-	   --producer.config producer.config
+	   --producer.config producer.config;
+
+Produce some records:
 
 	{"first_name":"Benny","last_name":"Boy"}
 	{"order_id":2,"order_amount":4}
 	{"product_name":"Efexor","price":4.56}
 
 	{"firstname":"Benny","lastname":"Boy"}
+
+Hard delete the schemas:
 
 	curl -s -X DELETE "http://localhost:8081/subjects/multi_event-value";
 	curl -s -X DELETE "http://localhost:8081/subjects/multi_event-value?permanent=true";
@@ -442,21 +496,26 @@ View schema:
 	      {\"name\": \"order.proto\",\"subject\": \"order\",\"version\": 1}]}" \
 	"http://localhost:8081/subjects/multi_event-value/versions" | jq;
 
+Start the consumer:
+
 	kafka-protobuf-console-consumer \
 	   --topic multi_event \
 	   --from-beginning \
-	   --bootstrap-server pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --bootstrap-server ${CC_BOOTSTRAP} \
 	   --consumer.config producer.config \
 	   --property value.schema.id=82 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
+
+Start the producer:
 
 	kafka-protobuf-console-producer \
 	   --topic multi_event \
-	   --broker-list pkc-e8mp5.eu-west-1.aws.confluent.cloud:9092 \
+	   --broker-list ${CC_BOOTSTRAP} \
 	   --producer.config producer.config \
 	   --property value.schema.id=82 \
-	   --property schema.registry.url=http://localhost:8081
+	   --property schema.registry.url=http://localhost:8081;
 
+Produce some records:
 
 	{"customer":{"first_name":"Benny","last_name":"Boy"}}
 	{"order":{"order_id":2,"order_amount":4}}
