@@ -1,0 +1,7 @@
+{
+  "oneOf": [
+     { "$ref": "customer.json" },
+     { "$ref": "product.json" },
+     { "$ref": "order.json" } 
+ ]
+}

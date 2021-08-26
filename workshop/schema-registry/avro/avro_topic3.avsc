@@ -1,0 +1,8 @@
+{
+"type": "record",
+"namespace": "com.example",
+"name": "Customer2",
+"fields": [
+       { "name": "customer", "type": "com.example.Customer", "doc": "whole customer record via reference" }
+     ]
+}

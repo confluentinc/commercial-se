@@ -1,0 +1,6 @@
+syntax = \"proto3\"; 
+import \"proto_topic2.proto\"; 
+message Order { 
+	string order_id = 1; 
+	Customer customer = 2; 
+}

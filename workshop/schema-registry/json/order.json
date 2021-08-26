@@ -1,0 +1,11 @@
+{
+	"type": "object",
+	"properties": {
+		"order_id": {
+			"type": "integer"
+		},
+		"order_amount": {
+			"type": "integer"
+		}
+	},"additionalProperties":false
+}

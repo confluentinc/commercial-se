@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "customerid": {
+      "type": "integer"
+    }
+  },
+  "additionalProperties": false
+}

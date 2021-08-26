@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "customer_id": {
+      "type": "integer"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "date_of_birth": {
+      "type": "string"
+    }
+  },
+  "required": ["customer_id","first_name","last_name"],
+  "additionalProperties": false
+}

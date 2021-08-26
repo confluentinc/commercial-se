@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "f1": {
+      "type": "integer"
+    },
+    "customer": {
+      "$ref": "json_topic2.json"
+    }
+  },
+  "additionalProperties":false
+}

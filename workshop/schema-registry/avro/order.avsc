@@ -1,0 +1,9 @@
+{
+"type": "record",
+"namespace": "com.example",
+"name": "Order",
+"fields": [
+       { "name": "order_id", "type": "int" },
+       { "name": "order_amount", "type": "int" }
+     ]
+}

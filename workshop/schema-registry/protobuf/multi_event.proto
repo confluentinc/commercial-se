@@ -1,0 +1,9 @@
+syntax = \"proto3\"; 
+import \"customer.proto\";
+import \"product.proto\"; 
+import \"order.proto\"; 
+
+message AllTypes {oneof oneof_type {
+Customer customer = 1; 
+Product product = 2; 
+Order order = 3;}}

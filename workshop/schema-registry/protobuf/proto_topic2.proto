@@ -1,0 +1,4 @@
+syntax = \"proto3\"; 
+message Customer { 
+	string customer_name = 1; 
+}

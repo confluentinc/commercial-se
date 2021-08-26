@@ -1,0 +1,22 @@
+{
+	"type":"record",
+	"name":"myrecord",
+	"fields":[
+		{
+			"name":"customer_id",
+			"type":"int"
+		},
+		{
+			"name":"first_name",
+			"type":"string"
+		},
+		{
+			"name":"last_name",
+			"type":"string"
+		},
+		{
+			"name":"favourite_colour",
+			"type":"string"
+		}
+	]
+}

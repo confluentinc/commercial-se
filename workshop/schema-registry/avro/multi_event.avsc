@@ -1,0 +1,15 @@
+{
+ "type": "record",
+ "namespace": "com.example",
+ "name": "MultiEvent",
+ "fields": [
+   {
+     "name": "oneof_type",
+     "type": [
+       "com.example.Customer",
+       "com.example.Product",
+       "com.example.Order"
+     ]
+   }
+ ]
+}
