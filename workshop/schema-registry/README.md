@@ -79,7 +79,10 @@ BAD:
 
 Create the schema:
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/json_topic1.v1.json)}" "http://localhost:8081/subjects/json_topic1-value/versions" | jq;
+	curl -X POST -H "Content-Type: application/json" -d \
+		"{\"schemaType\":\"JSON\", \
+		\"schema\": $(jq '.|tostring' ./json/json_topic1.v1.json)}" \
+	"http://localhost:8081/subjects/json_topic1-value/versions" | jq;
 
 View schemas:
 
@@ -121,7 +124,10 @@ BAD:
 
 Create the schema:
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"PROTOBUF\", \"schema\": \"$(cat ./protobuf/proto_topic1.v1.proto | tr -d '\n' | tr -d '\t')\"}" "http://localhost:8081/subjects/proto_topic1-value/versions" | jq;
+	curl -X POST -H "Content-Type: application/json" -d \
+		"{\"schemaType\":\"PROTOBUF\", \
+		\"schema\": \"$(cat ./protobuf/proto_topic1.v1.proto | tr -d '\n' | tr -d '\t')\"}" \
+	"http://localhost:8081/subjects/proto_topic1-value/versions" | jq;
 
 View schemas:
 
@@ -162,9 +168,13 @@ BAD:
 
 	curl -s -X GET localhost:8081/config;
 
-	curl -X PUT -H "Content-Type: application/vnd.schemaregistry.v1+json" --data '{"compatibility": "FORWARD"}' http://localhost:8081/config/json_topic1-value;
+	curl -X PUT -H "Content-Type: application/vnd.schemaregistry.v1+json" --data \
+		'{"compatibility": "FORWARD"}' \
+	http://localhost:8081/config/json_topic1-value;
 
-	curl -X PUT -H "Content-Type: application/vnd.schemaregistry.v1+json" --data '{"compatibility": "FULL"}' http://localhost:8081/config/proto_topic1-value;
+	curl -X PUT -H "Content-Type: application/vnd.schemaregistry.v1+json" --data \
+		'{"compatibility": "FULL"}' \
+	http://localhost:8081/config/proto_topic1-value;
 
 	curl -X GET http://localhost:8081/config/json_topic1-value;
 	curl -X GET http://localhost:8081/config/proto_topic1-value;
@@ -175,11 +185,16 @@ BAD:
 
 Check compatibility:
 
-	curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" --data "{\"schema\": $(jq '.|tostring' ./avro/avro_topic1.v2.avsc)}" http://localhost:8081/compatibility/subjects/avro_topic1-value/versions/latest | jq;
+	curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" --data \
+		"{\"schema\": $(jq '.|tostring' ./avro/avro_topic1.v2.avsc)}" \
+	http://localhost:8081/compatibility/subjects/avro_topic1-value/versions/latest | jq;
 
 Evolve schema:
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"AVRO\", \"schema\": $(jq '.|tostring' ./avro/avro_topic1.v2.avsc)}" "http://localhost:8081/subjects/avro_topic1-value/versions" | jq;
+	curl -X POST -H "Content-Type: application/json" -d \
+		"{\"schemaType\":\"AVRO\", \
+		\"schema\": $(jq '.|tostring' ./avro/avro_topic1.v2.avsc)}" \
+	"http://localhost:8081/subjects/avro_topic1-value/versions" | jq;
 
 View schema:
 
@@ -214,11 +229,17 @@ Produce some records:
 
 Check compatibility:
 
-	curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/json_topic1.v2.json)}" http://localhost:8081/compatibility/subjects/json_topic1-value/versions/latest | jq;
+	curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" -d \
+		"{\"schemaType\":\"JSON\", \
+		\"schema\": $(jq '.|tostring' ./json/json_topic1.v2.json)}" \
+	http://localhost:8081/compatibility/subjects/json_topic1-value/versions/latest | jq;
 
 Evolve schema:
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/json_topic1.v2.json)}" "http://localhost:8081/subjects/json_topic1-value/versions" | jq;
+	curl -X POST -H "Content-Type: application/json" -d \
+		"{\"schemaType\":\"JSON\", \
+		\"schema\": $(jq '.|tostring' ./json/json_topic1.v2.json)}" \
+	"http://localhost:8081/subjects/json_topic1-value/versions" | jq;
 
 View schema:
 
@@ -253,11 +274,17 @@ Produce some records:
 
 Check compatibility:
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"PROTOBUF\", \"schema\": \"$(cat ./protobuf/proto_topic1.v2.proto | tr -d '\n' | tr -d '\t')\"}"  "http://localhost:8081/compatibility/subjects/proto_topic1-value/versions/latest" | jq;
+	curl -X POST -H "Content-Type: application/json" -d \
+		"{\"schemaType\":\"PROTOBUF\", \
+		\"schema\": \"$(cat ./protobuf/proto_topic1.v2.proto | tr -d '\n' | tr -d '\t')\"}"  \
+	"http://localhost:8081/compatibility/subjects/proto_topic1-value/versions/latest" | jq;
 
 Evolve schema:
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"PROTOBUF\", \"schema\": \"$(cat ./protobuf/proto_topic1.v2.proto | tr -d '\n' | tr -d '\t')\"}"  "http://localhost:8081/subjects/proto_topic1-value/versions" | jq;
+	curl -X POST -H "Content-Type: application/json" -d \
+		"{\"schemaType\":\"PROTOBUF\", \
+		\"schema\": \"$(cat ./protobuf/proto_topic1.v2.proto | tr -d '\n' | tr -d '\t')\"}"  \
+	"http://localhost:8081/subjects/proto_topic1-value/versions" | jq;
 
 View schema:
 
@@ -270,7 +297,10 @@ View schema:
 
 Create the schema:
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"AVRO\", \"schema\": $(jq '.|tostring' ./avro/avro_topic2.avsc)}" "http://localhost:8081/subjects/avro_topic2-value/versions" | jq;
+	curl -X POST -H "Content-Type: application/json" -d \
+		"{\"schemaType\":\"AVRO\", \
+		\"schema\": $(jq '.|tostring' ./avro/avro_topic2.avsc)}" \
+	"http://localhost:8081/subjects/avro_topic2-value/versions" | jq;
 
 	curl -X POST -H "Content-Type: application/json" -d \
 	   "{\"schemaType\":\"AVRO\", \
@@ -305,9 +335,16 @@ Produce some records:
 
 ## PROTOBUF
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"PROTOBUF\", \"schema\": \"$(cat ./protobuf/proto_topic2.proto | tr -d '\n' | tr -d '\t')\"}" "http://localhost:8081/subjects/proto_topic2-value/versions" | jq;
+	curl -X POST -H "Content-Type: application/json" -d \
+		"{\"schemaType\":\"PROTOBUF\", \
+		\"schema\": \"$(cat ./protobuf/proto_topic2.proto | tr -d '\n' | tr -d '\t')\"}" \
+	"http://localhost:8081/subjects/proto_topic2-value/versions" | jq;
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"PROTOBUF\", \"schema\": \"$(cat ./protobuf/proto_topic3.proto | tr -d '\n' | tr -d '\t')\",\"references\":[{\"name\": \"proto_topic2.proto\",\"subject\":\"proto_topic2-value\",\"version\": 1}]}" "http://localhost:8081/subjects/proto_topic3-value/versions" | jq;
+	curl -X POST -H "Content-Type: application/json" -d \
+		"{\"schemaType\":\"PROTOBUF\", \
+		\"schema\": \"$(cat ./protobuf/proto_topic3.proto | tr -d '\n' | tr -d '\t')\", \
+		\"references\":[{\"name\": \"proto_topic2.proto\",\"subject\":\"proto_topic2-value\",\"version\": 1}]}" \
+	"http://localhost:8081/subjects/proto_topic3-value/versions" | jq;
 
 	curl -X GET http://localhost:8081/subjects/proto_topic2-value/versions/1/referencedby;
 
@@ -338,9 +375,16 @@ Produce some records:
 
 ## JSON SCHEMA
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/json_topic2.json)}" "http://localhost:8081/subjects/json_topic2-value/versions" | jq;
+	curl -X POST -H "Content-Type: application/json" -d \
+		"{\"schemaType\":\"JSON\", \
+		\"schema\": $(jq '.|tostring' ./json/json_topic2.json)}" \
+	"http://localhost:8081/subjects/json_topic2-value/versions" | jq;
 
-	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/json_topic3.json),\"references\":[{\"name\": \"json_topic2.json\",\"subject\":\"json_topic2-value\",\"version\": 1}]}" "http://localhost:8081/subjects/json_topic3-value/versions" | jq;
+	curl -X POST -H "Content-Type: application/json" -d \
+		"{\"schemaType\":\"JSON\", \
+		\"schema\": $(jq '.|tostring' ./json/json_topic3.json), \
+		\"references\":[{\"name\": \"json_topic2.json\",\"subject\":\"json_topic2-value\",\"version\": 1}]}" \
+	"http://localhost:8081/subjects/json_topic3-value/versions" | jq;
 
 	curl -X GET http://localhost:8081/subjects/json_topic2-value/versions/1/referencedby;
 
