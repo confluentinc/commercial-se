@@ -1,12 +1,12 @@
-# UNDER CONSTRUCTION
+## UNDER CONSTRUCTION
 
-# 0 - Setup
+## 0 - Setup
 
 	docker-compose --env-file docker-compose-ccloud.env -f docker-compose-schema-registry.yml up -d
 
 	export PATH="$PATH:<path to CP bin folder>"
 
-# 1 - Create Topics
+## 1 - Create Topics
 
 	ccloud kafka topic create avro_topic1 --partitions 1;
 	ccloud kafka topic create avro_topic2 --partitions 1;
@@ -22,15 +22,15 @@
 
 	ccloud kafka topic create multi_event --partitions 1;
 
-# 2 - List Schema Subjects
+## 2 - List Schema Subjects
 
 	curl -s -X GET localhost:8081/subjects | jq;
 
-# 3 - Add Schemas
+## 3 - Add Schemas
 
 NOTE: if no schemaType is supplied, schemaType is assumed to be AVRO.
 
-## AVRO
+### AVRO
 
 Create the schema:
 
@@ -75,7 +75,7 @@ BAD:
 	{"f1":2}
 
 
-## JSON SCHEMA
+### JSON SCHEMA
 
 Create the schema:
 
@@ -120,7 +120,7 @@ BAD:
 
 	{"f1":2}
 
-## PROTOBUF
+### PROTOBUF
 
 Create the schema:
 
@@ -164,7 +164,7 @@ BAD:
 
 	{"f1":2}
 
-# 4 - Change Compatibility
+## 4 - Change Compatibility
 
 	curl -s -X GET localhost:8081/config;
 
@@ -179,9 +179,9 @@ BAD:
 	curl -X GET http://localhost:8081/config/json_topic1-value;
 	curl -X GET http://localhost:8081/config/proto_topic1-value;
 
-# 5 - Evolve Schemas
+## 5 - Evolve Schemas
 
-## AVRO - Add Optional Field
+### AVRO - Add Optional Field
 
 Check compatibility:
 
@@ -225,7 +225,7 @@ Produce some records:
 	python3 python-avro-producer.py ./avro/avro_topic1.v1.avsc avro_topic1
 	{"customer_id":4,"first_name":"Jane","last_name":"Doe","favourite_colour":"green"}
 
-## JSON - Remove Optional Field
+### JSON - Remove Optional Field
 
 Check compatibility:
 
@@ -270,7 +270,7 @@ Produce some records:
 	{"customer_id":4,"first_name":"Benny","last_name":"Boy","date_of_birth":"11/03/81"}
 	{"customer_id":4,"firstname":"Benny","last_name":"Boy"}
 
-## PROTOBUF - Add and Remove Optional Fields
+### PROTOBUF - Add and Remove Optional Fields
 
 Check compatibility:
 
@@ -291,9 +291,9 @@ View schema:
 	curl -s -X GET localhost:8081/subjects/proto_topic1-value/versions/latest | jq;
 	curl -s -X GET localhost:8081/subjects/proto_topic1-value/versions/1 | jq;
 
-# 6 - Test References
+## 6 - Test References
 
-## AVRO
+### AVRO
 
 Create the schema:
 
@@ -333,7 +333,7 @@ Produce some records:
 
 	{"customer":{"first_name":"Bill","last_name":"Bob"}}
 
-## PROTOBUF
+### PROTOBUF
 
 	curl -X POST -H "Content-Type: application/json" -d \
 		"{\"schemaType\":\"PROTOBUF\", \
@@ -373,7 +373,7 @@ Produce some records:
 	{"orde_id":"1","customer":{"customer_name":"Ben"}}
 	{"order_id":"1","customer":{"custome_name":"Ben"}}
 
-## JSON SCHEMA
+### JSON SCHEMA
 
 	curl -X POST -H "Content-Type: application/json" -d \
 		"{\"schemaType\":\"JSON\", \
@@ -413,9 +413,9 @@ Produce some records:
 	{"f2":1,"customer":{"customerid":2}}
 	{"f1":1,"customer":{"custid":2}}
 
-# 7 - Multiple Topic Schemas
+## 7 - Multiple Topic Schemas
 
-## AVRO
+### AVRO
 
 	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"AVRO\", \"schema\": $(jq '.|tostring' ./avro/customer.avsc)}" "http://localhost:8081/subjects/customer/versions" | jq;
 	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"AVRO\", \"schema\": $(jq '.|tostring' ./avro/product.avsc)}" "http://localhost:8081/subjects/product/versions" | jq;
@@ -472,7 +472,7 @@ Hard delete the schemas:
 	curl -s -X DELETE "http://localhost:8081/subjects/customer";
 	curl -s -X DELETE "http://localhost:8081/subjects/customer?permanent=true";
 
-## JSON
+### JSON
 
 	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/customer.json)}" "http://localhost:8081/subjects/customer/versions" | jq;
 	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"JSON\", \"schema\": $(jq '.|tostring' ./json/product.json)}" "http://localhost:8081/subjects/product/versions" | jq;
@@ -525,7 +525,7 @@ Hard delete the schemas:
 	curl -s -X DELETE "http://localhost:8081/subjects/customer";
 	curl -s -X DELETE "http://localhost:8081/subjects/customer?permanent=true";
 
-## PROTO
+### PROTO
 
 	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"PROTOBUF\", \"schema\": \"$(cat ./protobuf/customer.proto | tr -d '\n' | tr -d '\t')\"}" "http://localhost:8081/subjects/customer/versions" | jq;
 	curl -X POST -H "Content-Type: application/json" -d "{\"schemaType\":\"PROTOBUF\", \"schema\": \"$(cat ./protobuf/product.proto | tr -d '\n' | tr -d '\t')\"}" "http://localhost:8081/subjects/product/versions" | jq;
@@ -568,7 +568,7 @@ Produce some records:
 	{"prodct":{"product_name":2,"price":4.56}}
 	{"order":{"order_id":2,"orderamount":4}}
 
-# 8 - Blow it all away
+## 8 - Blow it all away
 
 	curl -s -X DELETE "http://localhost:8081/subjects/avro_topic1-value";
 	curl -s -X DELETE "http://localhost:8081/subjects/avro_topic1-value?permanent=true";
